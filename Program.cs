@@ -8,7 +8,7 @@ namespace CorrectionBaseCSharp
     {
         static void Main(string[] args)
         {
-            Exercice10();
+            Exercice11();
         }
 
         static void Exercice1()
@@ -363,6 +363,25 @@ namespace CorrectionBaseCSharp
             }
 
             return result;
+        }
+
+        static void Exercice11()
+        {
+            for(int i = 0; i <= 20; i++)
+            {
+                if (i % 2 == 0)// n'afficher que les chiffres pairs
+                {
+                    Console.WriteLine(i);
+                }
+            }
+        }
+
+        static void Exercice11_v2()
+        {
+            for (int i = 0; i <= 20; i = i+2)
+            {
+                Console.WriteLine(i);
+            }
         }
     }
 }
