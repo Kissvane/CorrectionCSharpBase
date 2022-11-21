@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CorrectionBaseCSharp
 {
@@ -7,7 +8,7 @@ namespace CorrectionBaseCSharp
     {
         static void Main(string[] args)
         {
-            Exercice5_v2();
+            Exercice10();
         }
 
         static void Exercice1()
@@ -71,16 +72,16 @@ namespace CorrectionBaseCSharp
             Console.WriteLine("Rentrez le second nombre");
             int value2 = int.Parse(Console.ReadLine());
 
-            Addition(value1, value2);
-            Division(value1, value2);
+            Add(value1, value2);
+            Divide(value1, value2);
         }
 
-        static void Addition(int f1, int f2)
+        static void Add(int f1, int f2)
         {
            Console.WriteLine($"{f1} + {f2} = {f1+f2}");
         }
 
-        static void Division(int f1, int f2)
+        static void Divide(int f1, int f2)
         {
             Console.WriteLine($"{f1} / {f2} = {f1/f2} reste {f1%f2}");
         }
@@ -119,7 +120,7 @@ namespace CorrectionBaseCSharp
                 return;
             }
 
-            Addition(value1, value2);
+            Add(value1, value2);
 
             if (value2 == 0)
             {
@@ -129,7 +130,7 @@ namespace CorrectionBaseCSharp
                 return;
             }
 
-            Division(value1, value2);
+            Divide(value1, value2);
         }
 
         static void Exercice6()
@@ -156,7 +157,212 @@ namespace CorrectionBaseCSharp
                     Console.WriteLine("Tapez coorectement la coueur du feu");
                     return;
             }
-           
+        }
+
+        static void Exercice7()
+        {
+            Console.WriteLine("Température de l'eau ?");
+            int temperature = int.Parse(Console.ReadLine());
+            if (temperature <= 0)
+            {
+                Console.WriteLine("ETAT SOLIDE");
+            }
+            else if (temperature <100)
+            {
+                Console.WriteLine("ETAT LIQUIDE");
+            }
+            else
+            {
+                Console.WriteLine("ETAT GAZEUX");
+            }
+        }
+
+        static void Exercice8()
+        {
+            Console.WriteLine("Rentrez le premier nombre");
+            int value1 = 0;
+            int value2 = 0;
+            try
+            {
+                value1 = int.Parse(Console.ReadLine());
+            }
+            catch (FormatException e)
+            {
+                Console.WriteLine("Vous ne devez taper que des chiffres.");
+                Exercice8();
+                return;
+            }
+            Console.WriteLine("Rentrez le second nombre");
+            try
+            {
+                value2 = int.Parse(Console.ReadLine());
+            }
+            catch (FormatException e)
+            {
+                Console.WriteLine("Vous ne devez taper que des chiffres.");
+                Exercice8();
+                return;
+            }
+
+            Add_ManageException(value1, value2);
+            Divide_ManageException(value1, value2);
+        }
+
+        //version plus optimisée
+        static void Exercice8_v2()
+        {
+            int? value1 = null;
+            int? value2 = null;
+            while (!value1.HasValue)
+            {
+                Console.WriteLine("Rentrez le premier nombre");
+                bool canParse = int.TryParse(Console.ReadLine(), out int temp);
+                if (canParse)
+                {
+                    value1 = temp;
+                }
+                else
+                {
+                    Console.WriteLine("Vous ne devez taper que des chiffres.");
+                }
+            }
+
+            while (!value2.HasValue)
+            {
+                Console.WriteLine("Rentrez le premier nombre");
+                bool canParse = int.TryParse(Console.ReadLine(), out int temp);
+                if (canParse)
+                {
+                    value2 = temp;
+                }
+                else
+                {
+                    Console.WriteLine("Vous ne devez taper que des chiffres.");
+                }
+            }
+
+            Add_ManageException(value1.Value, value2.Value);
+            Divide_ManageException(value1.Value, value2.Value);
+        }
+
+        static void Add_ManageException(int f1, int f2)
+        {
+            Console.WriteLine($"{f1} + {f2} = {f1 + f2}");
+        }
+
+        static void Divide_ManageException(int f1, int f2)
+        {
+            try
+            {
+                Console.WriteLine($"{f1} / {f2} = {f1 / f2} reste {f1 % f2}");
+            }
+            catch(DivideByZeroException e)
+            {
+                Console.WriteLine("Diviser par 0 est impossible.");
+            }
+        }
+
+        static void Exercice9()
+        {
+            int value1 = WaitForGoodInput("Rentrez le premier nombre");
+            int value2 = WaitForGoodInput("Rentrez le second nombre");
+            int value3 = WaitForGoodInput("Rentrez le troisième nombre");
+
+            Random random = new Random((int)DateTime.Now.Ticks);
+
+            int value4 = random.Next(1, 101);
+            int value5 = random.Next(1, 101);
+            int value6 = random.Next(1, 101);
+
+            List<int> list = new List<int> { value1, value2, value3, value4, value5, value6 };
+            list.Sort();//classer la liste
+            list.Reverse();
+
+            Console.WriteLine("-----------------------------------");
+
+            foreach (int i in list)
+            {
+                Console.WriteLine(i);
+            }
+        }
+
+        static int WaitForGoodInput(string s)
+        {
+            bool assigned = false;
+            int result = 0;
+            while (!assigned)
+            {
+                Console.WriteLine(s);
+                bool canParse = int.TryParse(Console.ReadLine(), out result);
+                if (canParse)
+                {
+                    assigned = true;
+                }
+                else
+                {
+                    Console.WriteLine("Vous ne devez taper que des chiffres.");
+                }
+            }
+
+            return result;
+        }
+
+        static void Exercice10()
+        {
+            float value1 = WaitForGoodFloatInput("Rentrez le premier nombre");
+            float value2 = WaitForGoodFloatInput("Rentrez le second nombre");
+            float value3 = WaitForGoodFloatInput("Rentrez le troisième nombre");
+
+            List<float> list = new List<float> { value1, value2, value3 };
+            list.Sort();
+
+            Console.WriteLine("-----------------------------------");
+
+            foreach (float i in list)
+            {
+                Console.WriteLine(i);
+            }
+        }
+
+        static float WaitForGoodFloatInput(string s)
+        {
+            bool assigned = false;
+            float result = 0;
+            while (!assigned)
+            {
+                Console.WriteLine(s);
+                bool canParse = float.TryParse(Console.ReadLine(), out result);
+                if (canParse)
+                {
+                    assigned = true;
+                }
+                else
+                {
+                    Console.WriteLine("Vous ne devez taper que des chiffres.");
+                }
+            }
+
+            return result;
+        }
+
+        static float WaitForGoodFloatInputTryCatch(string s)
+        {
+            bool assigned = false;
+            float result = 0;
+            while (!assigned)
+            {
+                Console.WriteLine(s);
+                try
+                {
+                    result = float.Parse(Console.ReadLine());
+                }
+                catch(FormatException e)
+                {
+                    Console.WriteLine("Vous ne devez taper que des chiffres.");
+                }
+            }
+
+            return result;
         }
     }
 }
