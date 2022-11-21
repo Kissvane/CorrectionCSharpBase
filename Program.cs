@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
+using System.Diagnostics;
 
 namespace CorrectionBaseCSharp
 {
@@ -8,7 +10,10 @@ namespace CorrectionBaseCSharp
     {
         static void Main(string[] args)
         {
-            Exercice11();
+            Exercice15();
+
+            Exercice15_v2();
+
         }
 
         static void Exercice1()
@@ -264,9 +269,9 @@ namespace CorrectionBaseCSharp
 
         static void Exercice9()
         {
-            int value1 = WaitForGoodInput("Rentrez le premier nombre");
-            int value2 = WaitForGoodInput("Rentrez le second nombre");
-            int value3 = WaitForGoodInput("Rentrez le troisième nombre");
+            int value1 = WaitForGoodIntInput("Rentrez le premier nombre");
+            int value2 = WaitForGoodIntInput("Rentrez le second nombre");
+            int value3 = WaitForGoodIntInput("Rentrez le troisième nombre");
 
             Random random = new Random((int)DateTime.Now.Ticks);
 
@@ -286,7 +291,7 @@ namespace CorrectionBaseCSharp
             }
         }
 
-        static int WaitForGoodInput(string s)
+        static int WaitForGoodIntInput(string s)
         {
             bool assigned = false;
             int result = 0;
@@ -382,6 +387,125 @@ namespace CorrectionBaseCSharp
             {
                 Console.WriteLine(i);
             }
+        }
+
+        static void Exercice12()
+        {
+            int number = WaitForGoodIntInput("Saisir un nombre");
+            int result = 0;
+            for (int i = 1; i <= number; i++)
+            {
+                result += i;
+            }
+
+            Console.WriteLine(result);
+        }
+
+        static void Exercice13()
+        {
+            string result = "";
+            for (int i = 30; i >= 0; i -= 3)
+            {
+                result += i;
+                if (i != 0)
+                {
+                    result += " ";
+                }
+            }
+
+            Console.WriteLine(result);
+        }
+
+        static void Exercice13_v2()
+        {
+            StringBuilder builder = new StringBuilder();
+            for (int i = 30; i >= 0; i -= 3)
+            {
+                builder.Append(i);
+                if (i != 0)
+                {
+                    builder.Append(" ");
+                }
+            }
+
+            Console.WriteLine(builder.ToString());
+        }
+
+        static void Exercice13_v3()
+        {
+            for (int i = 30; i >= 0; i -= 3)
+            {
+                Console.Write(i);
+                if (i != 0)
+                {
+                    Console.Write(" ");
+                }
+            }
+        }
+
+        static void PerformanceComparison()
+        {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            Exercice13();
+            sw.Stop();
+            long time1 = sw.ElapsedMilliseconds;
+
+            sw.Restart();
+            Exercice13_v2();
+            sw.Stop();
+            long time2 = sw.ElapsedMilliseconds;
+            sw.Restart();
+            Exercice13_v3();
+            sw.Stop();
+            long time3 = sw.ElapsedMilliseconds;
+            Console.WriteLine();
+            Console.WriteLine("V1 : " + time1);
+            Console.WriteLine("V2 : " + time2);
+            Console.WriteLine("V3 : " + time3);
+        }
+
+        static void Exercice14()
+        {
+            int i = 2;
+            Console.WriteLine(i);
+            while (i <= 21)
+            {
+                i += 3;
+                Console.WriteLine(i);
+            }
+        }
+
+        static void Exercice15()
+        {
+            int result = 0;
+            bool IsANumber = true;
+            while (IsANumber)
+            {
+                try
+                {
+                    result += int.Parse(Console.ReadLine());
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine(result);
+                    IsANumber = false;
+                }
+            }
+        }
+
+        static void Exercice15_v2()
+        {
+            int result = 0;
+            bool IsANumber = true;
+            while (IsANumber)
+            {
+                IsANumber = int.TryParse(Console.ReadLine(),out int parsed);
+                if (IsANumber)
+                    result += parsed;
+            }
+
+            Console.WriteLine(result);
         }
     }
 }
