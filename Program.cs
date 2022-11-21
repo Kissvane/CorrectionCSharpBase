@@ -10,10 +10,7 @@ namespace CorrectionBaseCSharp
     {
         static void Main(string[] args)
         {
-            Exercice15();
-
-            Exercice15_v2();
-
+            Exercice16();
         }
 
         static void Exercice1()
@@ -507,5 +504,20 @@ namespace CorrectionBaseCSharp
 
             Console.WriteLine(result);
         }
+
+        static void Exercice16()
+        {
+            int number = WaitForGoodIntInput("Tapez un nombre");
+            int divisionNumber = 0;
+            while (number > 1)
+            {
+                number /= 2;
+                Console.WriteLine(number);
+                divisionNumber++;
+            }
+            Console.WriteLine("-------------------------");
+            Console.WriteLine(divisionNumber);
+        }
+
     }
 }
