@@ -10,7 +10,7 @@ namespace CorrectionBaseCSharp
     {
         static void Main(string[] args)
         {
-            Exercice16();
+            Exercice21();
         }
 
         static void Exercice1()
@@ -517,6 +517,182 @@ namespace CorrectionBaseCSharp
             }
             Console.WriteLine("-------------------------");
             Console.WriteLine(divisionNumber);
+        }
+
+        static void Exercice17()
+        {
+            int[] myArray = new int[] {5,6,7,8,9,10,11,12,13};
+
+            myArray[2] = 111;
+
+            foreach (int i in myArray)
+            {
+                Console.WriteLine(i);
+            }
+        }
+
+        static void Exercice18(int[] myArray)
+        {
+            for (int i = 0; i < myArray.Length; i++)//i prend les valeurs de chaque index possible dans le tableau
+            {
+                if(myArray[i]%2 == 0)//si la valeur dans le tableau est pair
+                {
+                    myArray[i] = i;//je remplace la valeur par l'index
+                    Console.WriteLine(i);
+                }
+                else
+                {
+                    Console.WriteLine(myArray[i]);
+                }
+            }
+        }
+
+        static void Exercice19(int[] myArray1, int[] myArray2)
+        {
+            //creation du tableau final
+            int[] result = new int[myArray1.Length+myArray2.Length];
+
+            //calcul de la taille du plus grand tableau
+            int maxArrayLength = Math.Max(myArray1.Length, myArray2.Length);
+            int currentIndex = 0;
+            int currentIndexInResult = 0;
+            int[] continuingArray = null;
+            for (int i = 0; i < maxArrayLength; i++)
+            {
+                //si les deux tableaux ont une taille supérieur a l'index actuel
+                if (myArray1.Length > i && myArray2.Length > i) 
+                {
+                    result[i * 2] = myArray1[i];
+                    Console.WriteLine(result[i * 2]);
+                    result[(i * 2) + 1] = myArray2[i];
+                    Console.WriteLine(result[(i * 2) + 1]);
+                }
+                //si la taille de myArray1 est inférieur à l'index actuel
+                else if (myArray1.Length <= i)
+                {
+                    currentIndex = i;
+                    currentIndexInResult = i * 2;
+                    continuingArray = myArray2;
+                    break;
+                }
+                //si la taille de myArray2 est inférieur à l'index actuel
+                else
+                {
+                    currentIndex = i;
+                    currentIndexInResult = i * 2;
+                    continuingArray = myArray1;
+                    break;
+                }
+            }
+
+            //continuer à remplir le tableau avec la liste survivante
+            if (continuingArray != null) 
+            {
+                for (int i = currentIndex; i < continuingArray.Length; i++)
+                {
+                    result[currentIndexInResult] = continuingArray[i];
+                    Console.WriteLine(continuingArray[i]);
+                }
+            }
+        }
+
+        static void Exercice20(int[] array1, int[] array2, int index)
+        {
+            //array1 is null => exception
+            if(array1 == null || array1.Length == 0)
+            {
+                Console.WriteLine("Le premier tableau ne peut être nul ou vide");
+                return;
+            }
+            //array2 is null => return array1
+            //managed in the the loop
+
+            //if index > array1.length ou index < 0
+            if(index >= array1.Length || index < 0)
+            {
+                Console.WriteLine("l'index ne peux pas être plus grand que la taille de array1 ou inférieur à 0");
+                return;
+            }
+
+            int[] result = new int[array1.Length+array2.Length];
+
+            for (int i = 0; i < array1.Length; i++)
+            {
+                if(i < index)
+                {
+                    result[i] = array1[i];
+                    Console.WriteLine(array1[i]);
+                }
+                else if (i == index)
+                {
+                    for (int j = 0; j < array2.Length; j++)
+                    {
+                        result[i+j] = array2[j];
+                        Console.WriteLine(array2[j]);
+                    }
+                    result[i + array2.Length] = array1[i];
+                    Console.WriteLine(array1[i]);
+                }
+                else
+                {
+                    result[i+array2.Length] = array1[i];
+                    Console.WriteLine(array1[i]);
+                }
+            }
+        }
+
+        static void Exercice21()
+        {
+            string word = Console.ReadLine().Trim();
+            char[] array = new char[word.Length];
+            /*int i = 0;
+            foreach (char c in word)
+            {
+                if (!char.IsLetter(c))
+                {
+                    Console.WriteLine("Un mot ne peux contenir que des lettres. Arret de la fonction...");
+                    return;
+                }
+
+                array[i] = c;
+                i++;
+            }*/
+
+            for (int i = 0; i < word.Length; i++)
+            {
+                if (!char.IsLetter(word[i]))
+                {
+                    Console.WriteLine("Un mot ne peux contenir que des lettres. Arret de la fonction...");
+                    return;
+                }
+
+                array[i] = word[i];
+            }
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                Console.Write(array[i]);
+                if (i != array.Length-1)
+                {
+                    Console.Write(".");
+                }
+            }
+
+            for (int i = 0; i < array.Length/2; i++)
+            {
+                char p1 = array[i];
+                char p2 = array[array.Length-1-i];
+                char temp = p2;
+                array[array.Length - 1 - i] = p1;
+                array[i] = temp;
+            }
+
+            Console.WriteLine();
+
+            foreach (char c in array)
+            {
+                Console.Write(c);
+            }
         }
 
     }
