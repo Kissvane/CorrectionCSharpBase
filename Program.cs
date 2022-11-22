@@ -10,7 +10,7 @@ namespace CorrectionBaseCSharp
     {
         static void Main(string[] args)
         {
-            Exercice21();
+
         }
 
         static void Exercice1()
@@ -695,5 +695,46 @@ namespace CorrectionBaseCSharp
             }
         }
 
+        static void Exercice22()
+        {
+            string toProcess = Console.ReadLine();
+            toProcess = toProcess.Replace('#', '$');
+            Console.WriteLine(toProcess);
+        }
+
+        static void Exercice23()
+        {
+            string toProcess = Console.ReadLine().Trim();
+
+            for (int i = 0; i < toProcess.Length / 2; i++)
+            {
+                char p1 = toProcess[i];
+                char p2 = toProcess[toProcess.Length - 1 - i];
+                if(p1 != p2)
+                {
+                    Console.WriteLine("Ce n'est pas un palindrome");
+                    return;
+                }
+            }
+
+            Console.WriteLine("C'est un palindrome");
+        }
+
+        static void Exercice23_v2()
+        {
+            string toProcess = Console.ReadLine().Trim();
+            char[] array = toProcess.ToCharArray();
+            Array.Reverse(array);
+            string reversed = new string(array);
+
+            if (string.Equals(toProcess, reversed))
+            {
+                Console.WriteLine("C'est un palindrome");
+            }
+            else
+            {
+                Console.WriteLine("Ce n'est pas un palindrome");
+            }
+        }
     }
 }
