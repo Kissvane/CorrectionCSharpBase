@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
+using System.Linq;
 
 namespace CorrectionBaseCSharp
 {
@@ -10,7 +11,7 @@ namespace CorrectionBaseCSharp
     {
         static void Main(string[] args)
         {
-
+            Exercice28();
         }
 
         static void Exercice1()
@@ -735,6 +736,161 @@ namespace CorrectionBaseCSharp
             {
                 Console.WriteLine("Ce n'est pas un palindrome");
             }
+        }
+
+        static void Exercice24()
+        {
+            List<string> names = new List<string>();
+            bool userTypedANumber = false;
+            while (names.Count < 6 || !userTypedANumber)
+            {
+                userTypedANumber = false;
+                Console.WriteLine("Tapez un nom");
+                string userInpt = Console.ReadLine();
+                foreach (char c in userInpt)
+                {
+                    if (char.IsDigit(c))
+                    {
+                        userTypedANumber = true;
+                        break;
+                    }
+                }
+                names.Add(userInpt);
+            }
+
+            names.RemoveAt(4);
+            names.RemoveAt(1);
+            names.Insert(2, "Toto");
+            names.Reverse();
+
+            Console.WriteLine("-------------------------------");
+            Console.WriteLine();
+            foreach (string s in names)
+            {
+                Console.WriteLine(s);
+            }
+        }
+
+        static void Exercice25()
+        {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            HashSet<int> hashset = new HashSet<int>();
+            for (int i = 0; i <= 100000000; i++)
+            {
+                hashset.Add(i);
+            }
+            sw.Stop();
+            Console.WriteLine($"ADD TIME HASHET : {sw.ElapsedMilliseconds}");
+            sw.Restart();
+            List<int> list = new List<int>();
+            for (int i = 0; i <= 100000000; i++)
+            {
+                list.Add(i);
+            }
+            sw.Stop();
+            Console.WriteLine($"ADD TIME LIST : {sw.ElapsedMilliseconds}");
+            sw.Restart();
+            bool found = hashset.Contains(90000000);
+            sw.Stop();
+            Console.WriteLine($"SEARCH TIME HASHSET : {sw.ElapsedMilliseconds}");
+            sw.Restart();
+            bool found2 = list.Contains(90000000);
+            sw.Stop();
+            Console.WriteLine($"SEARCH TIME LIST : {sw.ElapsedMilliseconds}");
+        }
+
+        static void Exercice26()
+        {
+            HashSet<int> hashset = new HashSet<int>();
+            for (int i = 0; i <= 100; i++)
+            {
+                hashset.Add(i);
+            }
+
+            hashset.Add(0);
+            for (int i = 40; i <= 50; i++)
+            {
+                hashset.Remove(i);
+            }
+
+            string result = "";
+            foreach (int i in hashset)
+            {
+                result += $"{i} ";
+            }
+            Console.WriteLine(result);
+        }
+
+        static void Exercice27()
+        {
+            Dictionary<string, int> scores = new Dictionary<string, int>();
+            for (int i = 0; i < 10000; i++)
+            {
+                scores.Add($"Player{i}", i);
+            }
+            
+            scores.Add("Paul", 10);
+            scores.Add("Simon", 0);
+            scores.Add("Jules", 15);
+            scores.Add("Vegeta", 9001);
+            scores.Add("Marc", 56);
+
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            scores.ContainsKey("Vegeta");
+            sw.Stop();
+            Console.WriteLine($"SEARCH TIME {sw.ElapsedMilliseconds}");
+
+            Random random = new Random();
+
+            List<string> keys = scores.Keys.ToList();
+
+            for (int i = 0; i < 5; i++)
+            {
+                string randomKey = keys[random.Next(0, keys.Count)];
+                keys.Remove(randomKey);
+                Console.WriteLine($"{randomKey} : {scores[randomKey]}");
+            }
+        }
+
+        static void Exercice28()
+        {
+
+        }
+
+        public static DateTime GetRandomBirthdate()
+        {
+            Random random = new Random((int)DateTime.Now.Ticks);
+            return new DateTime(random.Next(1980, 2000), random.Next(1,12), random.Next(1,31));
+        }
+
+        public static string GetRandomString()
+        {
+            Random random = new Random((int)DateTime.Now.Ticks);
+            string result = "";
+            int size = random.Next(1, 101);
+            for (int i = 0; i < size; i++)
+            {
+                int myChar = random.Next(65, 90);
+                int randomLower = random.Next(0, 2);
+                if (randomLower == 1)
+                {
+                    myChar += 32;
+                }
+                result += (char)myChar;
+            }
+            return result;
+        }
+
+        static int studentNumber = 0;
+
+        public static Student CreateRandomStudent(int seed)
+        {
+            Random random = new Random(seed);
+            Student result = new Student("Student", studentNumber.ToString(), GetRandomBirthdate());
+            studentNumber++;
+            return result;
         }
     }
 }
